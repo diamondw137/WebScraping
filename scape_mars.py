@@ -64,87 +64,59 @@ browser.quit()
 
 return print
 
-#%%
+#imports
 import requests
 from splinter import Browser
 from bs4 import BeautifulSoup
 
 
-#%%
+#chromedriver
 executable_path = {'executable_path': 'chromedriver.exe'}
 browser = Browser('chrome', **executable_path, headless=False)
-
-
-#%%
+#url
 url = 'https://twitter.com/marswxreport?lang=en'
 data = requests.get(url)
 
-
-#%%
-print(data.text)
-
-
-#%%
 mars_weather = []
 html = BeautifulSoup(data.text, 'html.parser')
 timeline = html.select('#timeline li.stream-item')
 for tweet in timeline:
     tweet_text = tweet.select('p.tweet-text')[0].get_text()
 
-
-#%%
 print(tweet_text)
 
-
-#%%
 browser.quit()
 
-
-#%%
+#import pandas
 import pandas as pd
-
-
-#%%
+#url
 url = 'https://space-facts.com/mars/'
 
-
-#%%
 tables = pd.read_html(url)
 tables
 
+return tables
 
-#%%
+#chromedriver
 executable_path = {'executable_path': 'chromedriver.exe'}
 browser = Browser('chrome', **executable_path, headless=False)
 
-
-#%%
+#url
 url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
 
-
-#%%
+#browser visit
 browser.visit(url)
 
-
-#%%
+#html
 html_hemispheres = browser.html
 
-
-#%%
+#beautiful soup
 soup = BeautifulSoup(html_hemispheres, 'html.parser')
 
-
-#%%
-# results = soup.find_all('div', class_='item')
-# for items in results:
-#     print(items)
-
-
-#%%
+#empty list 
 hemisphere_images_urls = []
 
-
-#%%
+#for loop
 for result in results:
     hemi_dict={}
     #get titles
@@ -165,10 +137,11 @@ for result in results:
 #     hemisphere_images_urls['title']=title
 #     hemisphere_images_urls['imgs_url']=imgs_url
 
-
-#%%
+#hemisphere
 hemisphere_images_urls
 
+browser.quit()
+return hemi_dict
 
 #%%
 hemisphere_images_urls[0]["title"]
